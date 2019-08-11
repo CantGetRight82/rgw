@@ -52,9 +52,15 @@ const getKey = () => new Promise(ok => {
 const getMenuKey = async(title, options) => {
     const boldFirst = s => chalk.white.bold(s.charAt(0)) + s.substr(1);
     process.stdout.write( title + ' ' + options.map(boldFirst).join(', ') + ' ' );
-    let result = await getKey();
-    process.stdout.write('\n');
-    return result;
+
+    while(1) {
+        const result = await getKey();
+        const option = options.find(o => o.charAt(0) === result.str);
+        if(option) {
+            process.stdout.write('\n');
+            return result;
+        }
+    }
 }
 
 const apply = async(url, replacements) => new Promise((ok,fail) => {
@@ -90,7 +96,7 @@ const apply = async(url, replacements) => new Promise((ok,fail) => {
         process.exit();
     }
 
-    const { str } = await getMenuKey('Apply changes?', [ 'yes', 'interactive', 'no' ]);
+    const { str } = await getMenuKey('Apply all changes?', [ 'yes', 'interactive', 'no' ]);
     if(str === 'y') {
         await Promise.all(files.map(f => apply(f.url, f.replacements)));
         console.log('Done.');
@@ -101,7 +107,7 @@ const apply = async(url, replacements) => new Promise((ok,fail) => {
                 console.log(chalk.magenta(f.url));
                 console.log(chalk.green(replace.nr)+':' + replace.preview);
                 console.log('');
-                const { str } = await getMenuKey('Apply?', [ 'yes', 'no', 'quit' ]);
+                const { str } = await getMenuKey('Apply this change?', [ 'yes', 'no', 'quit' ]);
                 if(str === 'y') {
                     await apply(f.url, [ replace ]);
                 } else if(str === 'q') {
