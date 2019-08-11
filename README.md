@@ -28,5 +28,5 @@ $ rgw [search] [replace]
 
 It will show the ripgrep of what would be replaced.
 
-You can then choose to apply all changes, cancel or interactively apply per change.
+You can then either apply all changes, or interactively decide on each change seperately.
 
