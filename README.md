@@ -7,10 +7,13 @@ For the moment in only allows you to specify the search and replace arguments an
 
 ## Install
 
-Depends on ripgrep:
-
+1. Depends on ripgrep, so install if not already:
 https://github.com/BurntSushi/ripgrep
 
+2. Depends on nodejs, so install if not already:
+https://nodejs.org/en/download/
+
+3. Finally install rgw:
 
 ```console
 $ npm install rgw
