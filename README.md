@@ -26,7 +26,7 @@ $ npm install rgw
 $ rgw [search] [replace]
 ```
 
-It will show the rg output of what would be replaced.
+It will show the ripgrep of what would be replaced.
 
 You can then choose to apply all changes, cancel or interactively apply per change.
 
