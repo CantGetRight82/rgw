@@ -25,7 +25,7 @@ const getFileChanges = (str) => {
         } else {
             const [,nr,preview] = line.match(/\[32m([0-9]+).*?:(.+)/);
             const replacement = preview
-                .replace(/[\u001b]\[[0-9]+m/g, '');
+                .replace(/[\u001b]\[[0-9]*m/g, '');
 
             currentFile.replacements.push({
                 nr,
@@ -68,7 +68,11 @@ const apply = async(url, replacements) => new Promise((ok,fail) => {
         if(e) return fail(e);
         const lines = buf.toString().split('\n');
         replacements.forEach(({lineIndex, replacement}) => {
-            lines[lineIndex] = replacement;
+            if(lines[lineIndex].includes('\r')) {
+                lines[lineIndex] = replacement + '\r';
+            } else {
+                lines[lineIndex] = replacement;
+            }
         });
         fs.writeFile(url, lines.join('\n'), (e) => {
             if(e) return fail(e);
